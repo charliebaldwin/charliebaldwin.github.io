@@ -625,10 +625,11 @@ body {
   display: flex;
   overflow: hidden;
   width: 68vw;
-  height: 100%;
+  height: 101%;
   max-height: 100vh;
   margin-top: 20px;
   margin-bottom: -77px;
+  padding-bottom: 90px;
   -webkit-box-flex: 1;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -664,7 +665,7 @@ body {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  overflow: visible;
+  margin-bottom: 30px;
   padding-top: 10px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
@@ -1406,7 +1407,16 @@ body {
 }
 
 .div-block-43 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   margin-left: 20px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 .div-block-45 {
@@ -2288,6 +2298,55 @@ body {
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.37);
 }
 
+.div-block-50 {
+  overflow: hidden;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.pdfdownload {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px 30px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+  -ms-flex-align: end;
+  align-items: flex-end;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-ordinal-group: 1;
+  -webkit-order: 0;
+  -ms-flex-order: 0;
+  order: 0;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 auto;
+  -ms-flex: 0 auto;
+  flex: 0 auto;
+  border-radius: 15px;
+  background-color: red;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#fb5c82), to(#f96475));
+  background-image: linear-gradient(180deg, #fb5c82, #f96475);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  font-size: 20px;
+  text-decoration: none;
+}
+
 @media screen and (max-width: 991px) {
   .navbar {
     padding-right: 1vw;
@@ -2581,7 +2640,11 @@ body {
 
   .text-block-11 {
     display: block;
-    font-size: 1.6em;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-size: 1.5em;
     line-height: 2em;
   }
 
@@ -2867,6 +2930,11 @@ body {
     font-family: filson-pro, sans-serif;
   }
 
+  .paperclip-icon {
+    max-width: 1.6em;
+    margin-left: 0px;
+  }
+
   .div-block-49 {
     max-width: 100%;
   }
@@ -2896,6 +2964,19 @@ body {
   .text-block-26-email {
     margin: 12px;
     font-size: 20px;
+  }
+
+  .pdfdownload {
+    width: 93%;
+    height: 54px;
+    margin-left: 0px;
+    padding-right: 19px;
+    padding-left: 19px;
+    -webkit-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    font-size: 105%;
   }
 }
 
@@ -3104,16 +3185,16 @@ body {
   .div-block-15 {
     max-width: 62vw;
     margin-right: 0px;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
 
   .div-block-16 {
     max-height: 99vh;
-    margin-right: 40px;
+    margin-right: 0px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -3123,10 +3204,10 @@ body {
     -webkit-justify-content: flex-start;
     -ms-flex-pack: start;
     justify-content: flex-start;
-    -webkit-box-flex: 0;
-    -webkit-flex: 0 auto;
-    -ms-flex: 0 auto;
-    flex: 0 auto;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
   }
 
   .div-block-17 {
@@ -3140,6 +3221,10 @@ body {
   .div-block-18 {
     height: 10vh;
     min-width: auto;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
   }
 
   .div-block-20 {
@@ -3169,7 +3254,7 @@ body {
   .text-block-11 {
     width: 100%;
     margin-right: 10px;
-    font-size: 2em;
+    font-size: 1.6em;
     line-height: 1.4em;
     text-align: center;
     white-space: break-spaces;
@@ -3416,6 +3501,7 @@ body {
   }
 
   .paperclip-icon {
+    max-width: 1.8em;
     margin-left: 10px;
   }
 
@@ -3554,6 +3640,27 @@ body {
 
   .text-block-26-email {
     display: none;
+  }
+
+  .pdfdownload {
+    width: 68vw;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    -ms-grid-row-align: auto;
+    align-self: auto;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    font-size: 2.5vw;
   }
 }
 
@@ -4560,6 +4667,14 @@ body {
     font-size: 4.5vw;
     line-height: 1.2em;
     white-space: break-spaces;
+  }
+
+  .pdfdownload {
+    position: static;
+    margin-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    font-size: 4vw;
   }
 }
 
