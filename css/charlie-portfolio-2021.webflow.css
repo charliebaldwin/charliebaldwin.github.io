@@ -1251,7 +1251,7 @@ body {
   width: auto;
   height: 562px;
   max-width: none;
-  margin-top: -15%;
+  margin-top: -34%;
   -o-object-fit: cover;
   object-fit: cover;
   -o-object-position: 50% 0%;
@@ -2208,7 +2208,7 @@ body {
 .star-title-2 {
   position: relative;
   left: 0px;
-  top: -147%;
+  top: -87%;
   bottom: 0px;
   height: auto;
   max-height: none;
@@ -2414,6 +2414,45 @@ body {
   -webkit-text-fill-color: inherit;
   -o-object-fit: cover;
   object-fit: cover;
+}
+
+.starsword-title {
+  position: relative;
+  left: 26px;
+  top: 126px;
+  max-height: 109px;
+  padding-top: 0px;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+  -webkit-box-ordinal-group: 0;
+  -webkit-order: -1;
+  -ms-flex-order: -1;
+  order: -1;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(17%, #ac762b), color-stop(32%, #ddccb5), color-stop(46%, #f3f3f3), color-stop(68%, #a6aedf), color-stop(91%, #253abd));
+  background-image: linear-gradient(180deg, #ac762b 17%, #ddccb5 32%, #f3f3f3 46%, #a6aedf 68%, #253abd 91%);
+  font-family: filson-soft, sans-serif;
+  font-size: 64px;
+  line-height: 70px;
+  font-style: italic;
+  font-weight: 900;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.div-block-52 {
+  margin-top: -105px;
+  margin-bottom: 60px;
+  padding-right: 50px;
+  padding-left: 50px;
 }
 
 @media screen and (max-width: 991px) {
@@ -3756,6 +3795,21 @@ body {
     font-size: 10vw;
     line-height: 10vw;
   }
+
+  .starsword-title {
+    position: relative;
+    top: 8vw;
+    margin-bottom: 3px;
+    -webkit-box-ordinal-group: 0;
+    -webkit-order: -1;
+    -ms-flex-order: -1;
+    order: -1;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+    font-size: 8vw;
+  }
 }
 
 @media screen and (max-width: 479px) {
@@ -4809,6 +4863,14 @@ body {
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     background-clip: border-box;
     -webkit-text-fill-color: inherit;
+  }
+
+  .starsword-title {
+    position: relative;
+    top: 8.3vw;
+    bottom: 0vw;
+    font-size: 14vw;
+    text-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
   }
 }
 
