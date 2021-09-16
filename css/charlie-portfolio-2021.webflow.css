@@ -4779,6 +4779,7 @@ body {
   }
 
   .image-25-copy {
+    width: auto;
     height: 100%;
     max-width: none;
     -o-object-fit: fill;
