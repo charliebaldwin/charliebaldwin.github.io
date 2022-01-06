@@ -698,7 +698,7 @@ body {
 }
 
 .text-block-8 {
-  margin-bottom: 0px;
+  margin-bottom: 20px;
   margin-left: 0px;
   font-family: filson-soft, sans-serif;
   color: #fff;
@@ -867,7 +867,7 @@ body {
   -ms-flex: 0 auto;
   flex: 0 auto;
   border-radius: 35px;
-  background-color: rgba(0, 0, 0, 0.16);
+  background-color: rgba(0, 0, 0, 0.2);
   background-clip: border-box;
   -webkit-text-fill-color: inherit;
 }
@@ -2743,11 +2743,13 @@ body {
   min-height: 52px;
   margin-top: -12px;
   padding-top: 12px;
+  padding-left: 2px;
   background-color: #fff;
   background-image: -webkit-gradient(linear, left top, left bottom, from(#0c809d), to(#06d086));
   background-image: linear-gradient(180deg, #0c809d, #06d086);
   font-family: filson-soft, sans-serif;
-  font-size: 48px;
+  font-size: 64px;
+  line-height: 31px;
   font-style: italic;
   font-weight: 900;
   -webkit-background-clip: text;
@@ -3204,10 +3206,10 @@ body {
   .div-block-35 {
     margin-bottom: 0px;
     padding-bottom: 60px;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
-    align-items: center;
+    -webkit-box-align: start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
   }
 
   .paragraph-2 {
@@ -3432,10 +3434,10 @@ body {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
-    align-items: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
   }
 
   .text-block-26-email {
@@ -3511,6 +3513,10 @@ body {
   .image---moonsighted-banner {
     height: 379px;
     margin-top: -64%;
+  }
+
+  .text-block-27 {
+    line-height: 32px;
   }
 
   .paragraphblurb {
@@ -3901,11 +3907,30 @@ body {
     align-items: center;
   }
 
+  .div-block-32 {
+    margin-bottom: 20px;
+    padding: 4vw 4vw 0px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
+  }
+
+  .div-block-33 {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
   .div-block-34 {
     display: none;
   }
 
   .div-block-35 {
+    width: auto;
+    margin-right: 20px;
+    margin-left: 0px;
     padding-right: 0px;
   }
 
@@ -3948,6 +3973,8 @@ body {
     -webkit-order: 0;
     -ms-flex-order: 0;
     order: 0;
+    background-image: -webkit-gradient(linear, left top, right top, from(#5428a7), to(#775891));
+    background-image: linear-gradient(90deg, #5428a7, #775891);
     font-size: 2vw;
   }
 
@@ -4046,7 +4073,7 @@ body {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    height: 22%;
+    height: auto;
     margin-top: 0px;
     margin-bottom: 0px;
     padding-top: 10px;
@@ -4060,6 +4087,8 @@ body {
     -webkit-order: -1;
     -ms-flex-order: -1;
     order: -1;
+    background-image: -webkit-gradient(linear, left top, right top, from(#5428a7), to(#775891));
+    background-image: linear-gradient(90deg, #5428a7, #775891);
     font-size: 2vw;
   }
 
@@ -4284,7 +4313,9 @@ body {
 
   .starsword-title {
     position: relative;
-    top: 8vw;
+    left: 10px;
+    top: 21.3vw;
+    max-height: none;
     margin-bottom: 3px;
     -webkit-box-ordinal-group: 0;
     -webkit-order: -1;
@@ -4294,7 +4325,8 @@ body {
     -webkit-flex: 0 auto;
     -ms-flex: 0 auto;
     flex: 0 auto;
-    font-size: 8vw;
+    font-size: 6vw;
+    line-height: 6vw;
   }
 
   .sketches-title {
@@ -4363,7 +4395,14 @@ body {
   }
 
   .text-block-27 {
-    font-size: 5vw;
+    left: 15px;
+    top: -58px;
+    padding-left: 2px;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    -ms-grid-row-align: auto;
+    align-self: auto;
+    font-size: 8vw;
   }
 
   .image-17-copy {
@@ -4944,6 +4983,10 @@ body {
     font-size: 1em;
   }
 
+  .body-4 {
+    overflow: scroll;
+  }
+
   .div-block-30 {
     height: auto;
     max-height: none;
@@ -4972,10 +5015,10 @@ body {
     margin-right: 0px;
     margin-left: 20px;
     padding: 20px 20px 0px;
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
-    align-items: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     -webkit-align-self: flex-start;
     -ms-flex-item-align: start;
     align-self: flex-start;
@@ -4989,6 +5032,11 @@ body {
   .div-block-32 {
     margin-bottom: 20px;
     padding: 0px;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
     -webkit-box-flex: 0;
     -webkit-flex: 0 auto;
     -ms-flex: 0 auto;
@@ -5004,9 +5052,18 @@ body {
   }
 
   .div-block-35 {
+    width: auto;
     margin-left: 0px;
     padding-right: 0px;
     padding-bottom: 0px;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
   }
 
   .div-block-36 {
@@ -5049,7 +5106,7 @@ body {
 
   .image-17 {
     display: block;
-    max-width: 4em;
+    max-width: 2em;
     padding-bottom: 2px;
   }
 
@@ -5075,6 +5132,10 @@ body {
   .text-block-18 {
     margin-top: 10px;
     margin-bottom: 20px;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 auto;
+    -ms-flex: 0 auto;
+    flex: 0 auto;
     font-size: 6vw;
     line-height: 8vw;
   }
@@ -5175,12 +5236,13 @@ body {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    width: 114%;
+    width: auto;
     height: auto;
-    max-width: 73%;
+    max-width: none;
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
+    padding-left: 30px;
     -webkit-flex-wrap: nowrap;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
@@ -5193,7 +5255,7 @@ body {
     -ms-flex-order: -1;
     order: -1;
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
-    font-size: 3.5vw;
+    font-size: 3vw;
   }
 
   .portf-titleblock-chars {
@@ -5469,6 +5531,10 @@ body {
     text-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
   }
 
+  .paragraph-3 {
+    display: none;
+  }
+
   .sketches-title {
     top: 32%;
     font-size: 56%;
@@ -5528,7 +5594,7 @@ body {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    border-radius: 4vw;
+    border-radius: 6vw;
   }
 
   .image-212 {
@@ -5538,12 +5604,17 @@ body {
 
   .text-block-27 {
     left: 0px;
-    top: -38px;
+    top: -50px;
     min-height: 35px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
     background-color: #fff;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#0c809d), to(#06d086));
     background-image: linear-gradient(180deg, #0c809d, #06d086);
-    font-size: 8vw;
+    font-size: 10vw;
+    line-height: 2vw;
   }
 
   .image-17-copy {
