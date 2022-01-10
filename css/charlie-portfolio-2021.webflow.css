@@ -698,7 +698,7 @@ body {
 }
 
 .text-block-8 {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   margin-left: 0px;
   font-family: filson-soft, sans-serif;
   color: #fff;
@@ -885,7 +885,7 @@ body {
 
 .div-block-24 {
   margin-top: 0px;
-  padding-left: 2.5vw;
+  padding-left: 1.5vw;
 }
 
 .div-block-25 {
@@ -904,7 +904,7 @@ body {
 
 .div-block-20-copy {
   margin-top: 0px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   padding-top: 0vw;
   padding-right: 10px;
   padding-left: 0vw;
@@ -2355,13 +2355,13 @@ body {
   -webkit-flex-wrap: nowrap;
   -ms-flex-wrap: nowrap;
   flex-wrap: nowrap;
-  -webkit-box-align: end;
-  -webkit-align-items: flex-end;
-  -ms-flex-align: end;
-  align-items: flex-end;
-  -webkit-align-self: flex-end;
-  -ms-flex-item-align: end;
-  align-self: flex-end;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
   -webkit-box-ordinal-group: 1;
   -webkit-order: 0;
   -ms-flex-order: 0;
@@ -2759,7 +2759,7 @@ body {
 
 .paragraphblurb {
   padding: 15px 15px 15px 20px;
-  border-radius: 20px;
+  border-radius: 40px;
   background-color: rgba(0, 0, 0, 0.2);
   font-family: filson-soft, sans-serif;
   color: #fff;
@@ -3095,7 +3095,7 @@ body {
 
   .text-block-8 {
     min-width: 0px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
   }
 
   .text-block-10 {
@@ -3813,10 +3813,18 @@ body {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
+    -webkit-box-ordinal-group: 0;
+    -webkit-order: -1;
+    -ms-flex-order: -1;
+    order: -1;
     -webkit-box-flex: 0;
     -webkit-flex: 0 auto;
     -ms-flex: 0 auto;
     flex: 0 auto;
+  }
+
+  .text-block-8 {
+    margin-bottom: 10px;
   }
 
   .div-block-20 {
@@ -4273,7 +4281,7 @@ body {
 
   .pdfdownload {
     width: auto;
-    margin: 0px 20px 20px;
+    margin: 20px 20px 0px;
     padding-right: 20px;
     padding-left: 20px;
     -webkit-box-align: start;
@@ -4284,6 +4292,10 @@ body {
     -ms-flex-item-align: auto;
     -ms-grid-row-align: auto;
     align-self: auto;
+    -webkit-box-ordinal-group: 0;
+    -webkit-order: -1;
+    -ms-flex-order: -1;
+    order: -1;
     -webkit-box-flex: 1;
     -webkit-flex: 1;
     -ms-flex: 1;
@@ -4865,7 +4877,7 @@ body {
   }
 
   .div-block-17 {
-    padding-top: 15px;
+    padding-top: 5px;
   }
 
   .div-block-18 {
