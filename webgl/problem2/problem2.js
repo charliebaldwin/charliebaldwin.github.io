@@ -39,7 +39,7 @@ const eye = vec3(0, 0, 20.0);
 const tooClose = vec3(0, 0, 5.0);
 const at = vec3(0.0, 0.0, 0.0);
 const up = vec3(0.0, 1.0, 0.0);
-const fov = 70;
+const fov = 50;
 
 const bgColor = vec4(0, 0, 0, 1);
 
