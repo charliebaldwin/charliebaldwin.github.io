@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<style type='text/css'>
+		h1, h2, h3, h4, h5, h6, span {
+			font-family: sans-serif;
+			color: rgb(0, 0, 0);
+		}
+	</style>
+
+	<meta charset="utf-8" />
+	<title>Problem 2</title>
+	<script src="../lib/webgl-utils.js"></script>
+	<script src="../lib/initShaders.js"></script>
+	<script src="../lib/MV.js"></script>
+	<script src="problem2.js"></script>
+	<script src="tetrahedron.js"></script>
+	<script src="path.js"></script>
+
+
+	<script id="gouraud-vertex-shader" type="x-shader/x-vertex">
+
+		// GOURAUD VERTEX SHADER
+		// computes lighting for gouraud shading mode, giving each vertex a color based on its face normal and lighting setup
+
+		uniform mat4 modelMatrix;
+		uniform mat4 viewMatrix;
+		uniform mat4 projectionMatrix;
+		attribute vec4 vPosition;
+		attribute vec4 vNormal;
+		uniform vec4 diffuseProduct, specularProduct, ambientProduct;
+		uniform vec4 lightPosition;
+		uniform float shininess;
+		varying vec4 fColor;
+
+		void main()
+		{
+			vec3 pos = (viewMatrix * modelMatrix * vPosition).xyz;
+			vec3 L = normalize(lightPosition.xyz - pos);
+			vec3 N = normalize(viewMatrix * modelMatrix * vNormal).xyz;
+			vec3 V = normalize(-pos);
+			vec3 R = (2.0 * dot(L, N) * N) - L;
+
+			vec4 ambient = ambientProduct;
+			vec4 diffuse = diffuseProduct * dot(L, N);
+			vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
+			
+			fColor = diffuse + specular + ambient;
+			fColor.a = 1.0;
+
+			gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
+		}
+	</script>
+
+	<script id="wireframe-vertex-shader" type="x-shader/x-vertex">
+
+		// WIREFRAME VERTEX SHADER
+		// basic vertex shader for handling wireframe mode
+
+		uniform mat4 modelMatrix;
+		uniform mat4 viewMatrix;
+		uniform mat4 projectionMatrix;
+		attribute vec4 vPosition;
+		uniform vec4 uColor;
+		varying vec4 fColor;
+			
+		void main() {
+			gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
+			fColor = uColor;
+		}
+	</script>
+
+	<script id="plain-fragment-shader" type="x-shader/x-fragment">
+
+		// basic fragment shader, used for wireframe & gouraud modes
+
+		precision mediump float;
+		varying vec4 fColor;
+
+		void main()
+		{
+			gl_FragColor = fColor;
+		}
+	</script>
+
+	<script id="phong-vertex-shader" type="x-shader/x-vertex">
+		
+		// PHONG VERTEX SHADER
+
+		uniform mat4 modelMatrix;
+		uniform mat4 viewMatrix;
+		uniform mat4 projectionMatrix;
+		attribute vec4 vPosition;
+		attribute vec4 vNormal;
+		uniform vec4 lightPosition;
+		varying vec3 L, N, V;
+
+		void main()
+		{
+			vec3 pos = (viewMatrix * modelMatrix * vPosition).xyz;
+			L = normalize(lightPosition.xyz - pos);
+			N = normalize(viewMatrix * modelMatrix * vNormal).xyz;
+			V = normalize(-pos);
+
+			gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
+		}
+		</script>
+
+	<script id="phong-fragment-shader" type="x-shader/x-fragment">
+
+		// PHONG FRAGMENT SHADER
+
+		precision mediump float;
+
+		uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+		uniform float shininess;
+		varying vec3 L, N, V;
+
+		void main()
+		{
+			vec3 R = (2.0 * dot(L, N) * N) - L;
+
+			vec4 diffuse = diffuseProduct * dot(L, N);
+			vec4 ambient = ambientProduct;
+			vec4 specular = specularProduct * pow(max(dot(V, R), 0.0), shininess);
+
+			vec4 fColor = diffuse + specular + ambient;
+			fColor.a = 1.0;
+			gl_FragColor = fColor;
+		}
+	</script>
+
+</head>
+
+<body onload="main()">
+	<div class="container">
+		<div class="header">
+			<div class="left">
+				<h2>
+					<span>
+						CS 4731 Project 2 -
+						<span id="mode"></span>
+					</span>
+				</h2>
+				<h3>
+					Charlie Baldwin
+				</h3>
+			</div>
+		</div>
+		<div class="main">
+			<div class="center">
+				<canvas id="webgl" width="600" height="400" oncontextmenu="return false">
+					Please use a browser that supports the "canvas" tag.
+				</canvas>
+			</div>
+		</div>
+		<div class="selector">
+			<h4>
+				<ul>
+					<li><b>Q/E </b>: Geometry resolution</li>
+					<li><b>I / J </b>: Path resolution</li>
+					<li><b>W     </b>: Wireframe mode</li>
+					<li><b>S     </b>: Shading mode</li>
+					<li><b>A     </b>: Pause motion</li>
+					<li><b>D     </b>: Flip culling</li>
+					<li><b>F     </b>: Camera follow</li>
+				</ul>
+			</h4>
+		</div>
+	</div>
+
+</body>
+
+<style>
+	html,
+	body {
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+	}
+
+	canvas {
+		border: 1px red;
+	}
+
+	.container {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.header {
+		padding: 10px;
+		display: flex;
+		flex-grow: 0;
+		flex-shrink: 1;
+		background: lightGray;
+	}
+
+	.main {
+		display: flex;
+		flex-grow: 1;
+	}
+
+	.selector {
+		background: lightGray;
+		padding: 20px;
+		display: flex;
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	.center {
+		margin: auto;
+		padding: 10px;
+	}
+</style>
+
+</html>
