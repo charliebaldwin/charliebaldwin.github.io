@@ -10,15 +10,25 @@ function Tetrahedron(gl, wireframeProgram, gouraudProgram, phongProgram) {
     const vd = vec4(0.816497, -0.471405, 0.333333, 1);
     const color = vec4(1.0, 1.0, 1.0);
 
+    const v1 = vec4( -0.5, -0.5,  0.5, 1.0 );
+    const v2 = vec4( -0.5,  0.5,  0.5, 1.0 );
+    const v3 = vec4(  0.5,  0.5,  0.5, 1.0 );
+    const v4 = vec4(  0.5, -0.5,  0.5, 1.0 );
+    const v5 = vec4( -0.5, -0.5, -0.5, 1.0 );
+    const v6 = vec4( -0.5,  0.5, -0.5, 1.0 );
+    const v7 = vec4(  0.5,  0.5, -0.5, 1.0 );
+    const v8 = vec4(  0.5, -0.5, -0.5, 1.0 );
+
     const rotSpeed = 0.2;
 
     let theta = 0.0;
     let position = vec4(0.0, 0.0, 0.0);
-    let nSubdivisions = 0;
+    let nSubdivisions = 4;
     let pointsArray = [];
     let phongNormalsArray = [];
     let gouraudNormalsArray = [];
     let wireframeMode = 0;
+    let shapeMode = true;
     let phongMode = false;
 
     // uses newell method to calculate normal vector for a given polygon
@@ -83,13 +93,32 @@ function Tetrahedron(gl, wireframeProgram, gouraudProgram, phongProgram) {
         divideTriangle(a, c, d, n);
     }
 
+    function quad(a, b, c, d, n) {
+        divideTriangle(a, b, c, n);
+        divideTriangle(a, c, d, n);
+    }
+
+    function cube () {
+        quad(v1, v2, v3, v4, nSubdivisions);
+        quad(v2, v1, v5, v6, nSubdivisions);
+        quad(v8, v7, v6, v5, nSubdivisions);
+        quad(v4, v3, v7, v8, nSubdivisions);
+        quad(v3, v2, v6, v7, nSubdivisions);
+        quad(v1, v4, v8, v5, nSubdivisions);
+    }
+
     // initializes scene and calls for a tetrahedron to be generated
     function setup() {
         pointsArray = [];
         phongNormalsArray = [];
         gouraudNormalsArray = [];
-        tetrahedron(va, vb, vc, vd, nSubdivisions);
+        if (shapeMode) {
+            tetrahedron(va, vb, vc, vd, nSubdivisions);
+        } else {
+            cube();
+        }
     }
+    setup();
 
     // updates subdivision level based on user input
     this.setSubdivisions = function (n) {
@@ -112,7 +141,10 @@ function Tetrahedron(gl, wireframeProgram, gouraudProgram, phongProgram) {
         position = p;
     };
 
-    setup();
+    this.switchShape = function () {
+        shapeMode = !shapeMode;
+        setup();
+    };
 
     // base render function for tetrahedron, decides which specific function to use based on current render mode
     this.render = function () {

@@ -7,9 +7,11 @@
 // Note: I changed some of the input keys to a setup I found to be more intuitive. The controls are listed on the HTML page
 
 // Additional included features:
-// * press F to aim camera towards object, allowing you to get a better view of it
 // * Instead of just being a toggle, pressing W cycles between shaded, shaded + wireframe, and wireframe only
+// * press F to aim camera towards object, allowing you to get a better view of it
 // * Press D to swap between culling front and back faces
+// * Press R to swap between using a tetrahedron or a cube as the base shape. This code was designed working with a tetra. so it will
+//           work better in that mode.
 
 let gl;
 let gouraudProgram, phongProgram, wireframeProgram;
@@ -23,7 +25,7 @@ let canvasWidth = 400;
 let canvasHeight = 400;
 
 let tetrahedron = null;
-let tetrahedronDivisions = 1;
+let tetrahedronDivisions = 4;
 let tetraWireframe = false;
 let tetraPhongMode = false;
 
@@ -37,7 +39,7 @@ const eye = vec3(0, 0, 20.0);
 const tooClose = vec3(0, 0, 5.0);
 const at = vec3(0.0, 0.0, 0.0);
 const up = vec3(0.0, 1.0, 0.0);
-const fov = 50;
+const fov = 70;
 
 const bgColor = vec4(0, 0, 0, 1);
 
@@ -151,6 +153,9 @@ function main() {
                 break;
             case 'f': // camera tracks object
                 followMode = !followMode;
+                break;
+            case 'r':
+                tetrahedron.switchShape();
                 break;
         }
     };
