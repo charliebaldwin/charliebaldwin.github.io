@@ -94,8 +94,8 @@ function Tetrahedron(gl, wireframeProgram, gouraudProgram, phongProgram) {
     }
 
     function quad(a, b, c, d, n) {
-        divideTriangle(a, c, b, n);
-        divideTriangle(a, d, c, n);
+        divideTriangle(a, b, c, n);
+        divideTriangle(a, c, d, n);
     }
 
     function cube () {
