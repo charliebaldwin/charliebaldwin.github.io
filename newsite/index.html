@@ -20,12 +20,23 @@
             float h = max(k-abs(d1-d2), 0.) / k;
             return min(d1, d2) - h*h*h*k*1.0/6.0;
         }
+        float smoothMax(float d1, float d2, float k) {
+            float h = min(k-abs(d1-d2), 0.0) / k;
+            return max(d1, d2) - h*h*h*k*1.0/6.0;
+        }
         float sceneDistance(vec3 p) {
-            float sphere1 = sdfSphere(p, vec3(-600.0, 0., 100.), 80.0);
-            float sphere2 = sdfSphere(p, vec3(-600.0 + 100.0 * sin(iTime), 140., 100.), 70.0);
-            float sphereMouse = sdfSphere(p, vec3(iMouse.x - (iResolution.x / 2.0), iMouse.y - (iResolution.y / 2.0), 100.0), 30.0);
-            float d = smoothMin(sphere1, sphere2, 70.0);
-            d = smoothMin(d, sphereMouse, 70.0);
+            float sphere1 = sdfSphere(p, vec3(-0.4 * iResolution.x + 80.0 * sin(iTime * 0.76), 400.0 * cos(iTime * 0.36 + 32.1), 100.), 100.0 + 60.0 * sin(iTime * 0.45 + 29.1));
+            float sphere2 = sdfSphere(p, vec3(-0.4 * iResolution.x + 50.0 * sin(iTime * 0.54), 140. + 540.0 * cos(iTime * .28 + 92.4), 100.),  100.0 + 40.0 * sin(iTime * 0.32 + 95.1));
+            float sphere3 = sdfSphere(p, vec3(-0.4 * iResolution.x + 100.0 * cos(iTime * 0.61), -140. + 400.0 * sin(iTime * .33 + 56.8), 100.),  100.0 + 50.0 * sin(iTime * 0.37 + 52.1));
+            float sphere4 = sdfSphere(p, vec3(-0.4 * iResolution.x + 60.0 * sin(iTime * 0.68), 650.0 * sin(iTime * .15 + 17.6), 100.),  100.0 + 60.0 * sin(iTime * 0.55 + 82.1));
+            float sphereMouse1 = sdfSphere(p, vec3(iMouse.x - (iResolution.x / 2.0), iMouse.y - (iResolution.y / 2.0), 100.0), 30.0);
+            float sphereMouse2 = sdfSphere(p, vec3(50. * sin(2.0*iTime) + iMouse.x - (iResolution.x / 2.0), 50. * cos(1.58*iTime) + iMouse.y - (iResolution.y / 2.0), 100.0), 20.0);
+            
+            float d = smoothMin(sphere1, sphere2, 90.0);
+            d = smoothMin(d, sphere3, 90.0);
+            d = smoothMin(d, sphere4, 90.0);
+            d = smoothMin(d, sphereMouse1, 50.0);
+            d = smoothMin(d, sphereMouse2, 30.0);
             return d;
         }
     

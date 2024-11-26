@@ -62,7 +62,7 @@ body {
     overflow: scroll;
 }
 #column {
-    background-color: #ffffffcc;
+    background-color: #ffffffff;
     width: max(50%, min(500px, 95%));
     border-radius: 2vw;
     --margin-left: auto;
