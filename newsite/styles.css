@@ -28,15 +28,15 @@ body {
 }
 #name-header {
     font-family: LexendBold;
-    font-size: max(2.5vw, 12px);
+    font-size: max(2.5vw + 4px, 20px);
     text-align: center;
-    line-height: 3vw;
+    line-height: max(3vw, 28px);
     margin: 1vw 0vw 0vw 0vw;
 }
 #sub-header {
     font-family: LexendRegular;
-    font-size: max(1vw, 8px);
-    line-height: 2vw;
+    font-size: max(1vw, 10px);
+    line-height: max(2vw, 20px);
     text-align: center;
     margin: 0;
 
@@ -62,12 +62,13 @@ body {
     overflow: scroll;
 }
 #column {
-    background-color: #ffffffff;
+    background-color: #ffffff00;
+    backdrop-filter: blur(0px);
     width: max(50%, min(500px, 95%));
     border-radius: 2vw;
     --margin-left: auto;
     --margin-right: auto;  
-    box-shadow: rgba(0,0,0,0.35) 5px 10px 30px;
+    box-shadow: rgba(0,0,0,0.0) 5px 10px 30px;
 }
 #column-inner{
     padding: 1vw 2vw 2vw 2vw;
@@ -80,7 +81,8 @@ body {
     align-content: baseline;
 }
 .header-link {
-    font-size: max(1.2vw, 10px);
+    font-size: max(1.4vw, 14px);
+    line-height: max(2vw, 24px);;
     font-color: #000000;
     color: #000000;
     font-family: LexendBold;
@@ -94,7 +96,7 @@ body {
 #content-section {
     min-height: 0px;
     border-radius: 0vw;
-    border: dashed 1px #dddddd;
+    border: dashed 0px #dddddd;
     padding: 0vw 2vw 0vw 2vw;
     display: flex;
     flex-direction: column;
@@ -105,7 +107,7 @@ body {
 }
 .art-grp {
     width: 100%;
-    height: 30vh;
+    height: min(30vh, 50vw);
     border: dashed 1px #efefef;
     display: flex;
     flex-direction: column;
@@ -139,7 +141,7 @@ body {
     margin: 0;
     font-family: LexendRegular;
     font-color: #000000;
-    font-size: 1rem;
+    font-size: max(1rem, 12px);
     padding: 0.5rem 1rem 0.5rem 1rem;
     width: 100%;
     text-align: center;
@@ -150,7 +152,7 @@ body {
     overflow: clip;
 }
 .art-img {
-    object-fit: cover;
+    object-fit: fill;
     object-position: top;
     border-radius: 1vw;
     max-height: 100%;
