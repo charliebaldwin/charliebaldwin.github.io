@@ -1,0 +1,157 @@
+:root {
+    font-size: 1vw;
+}
+
+@font-face {
+    font-family: LexendRegular;
+    src: url('./fonts/Lexend-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: LexendBold;
+    src: url('./fonts/Lexend-Bold.ttf') format('truetype');
+}
+.shader-web-background-fallback {
+    background: url("https://placekitten.com/666/666");
+    background-image: linear-gradient(#2ca2ff, #cc00dd, #ff004e);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+head{
+    max-height: 0;
+}
+body {
+    font-family: LexendRegular;
+    background-image: linear-gradient(#2ca2ff, #cc00dd, #ff004e);
+    padding: 0;
+    margin: 0;
+}
+#name-header {
+    font-family: LexendBold;
+    font-size: max(2.5vw, 12px);
+    text-align: center;
+    line-height: 3vw;
+    margin: 1vw 0vw 0vw 0vw;
+}
+#sub-header {
+    font-family: LexendRegular;
+    font-size: max(1vw, 8px);
+    line-height: 2vw;
+    text-align: center;
+    margin: 0;
+
+}
+#bg-img {
+    position:fixed;
+    right:0;
+    bottom:0;
+    min-width: 100%;
+    min-height: 100%;
+    background-image: linear-gradient(#2ca2ff, #cc00dd, #ff004e);
+
+}
+#layout-main {
+    position: fixed;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    padding: 1rem 1rem 1rem 1rem;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+#column {
+    background-color: #ffffff;
+    width: max(50%, min(500px, 95%));
+    border-radius: 2vw;
+    --margin-left: auto;
+    --margin-right: auto;  
+    box-shadow: rgba(0,0,0,0.35) 5px 10px 30px;
+}
+#column-inner{
+    padding: 1vw 2vw 2vw 2vw;
+}
+#link-box {
+    padding: 0.5vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: baseline;
+}
+.header-link {
+    font-size: max(1.2vw, 10px);
+    font-color: #000000;
+    color: #000000;
+    font-family: LexendBold;
+    text-decoration: none;
+    text-decoration-color: inherit;
+}
+#link-selected {
+    text-decoration: underline;
+    text-underline-style: dashed-heavy;
+}
+#content-section {
+    min-height: 0px;
+    border-radius: 0vw;
+    border: dashed 1px #dddddd;
+    padding: 0vw 2vw 0vw 2vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1vw;
+    flex-wrap: wrap;
+}
+.art-grp {
+    width: 100%;
+    height: 30vh;
+    border: dashed 1px #efefef;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;   
+}
+.art-img-container {
+    border-width: 0px;
+    border-style: dashed;
+    border-color: #00ff00;
+    border-radius: 1vw;
+    flex-grow: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    max-height: 85%;
+    width: 100%;
+    box-shadow: rgba(0,0,0,0.35) 4px 4px 10px;
+}
+.art-label-container {
+    border-width: 0px;
+    border-style: solid;
+    border-color: #0000ff;
+    flex-grow: .5;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.art-label {
+    margin: 0;
+    font-family: LexendRegular;
+    font-color: #000000;
+    font-size: 1rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    width: 100%;
+    text-align: center;
+    text-anchor: end;
+    border-color: #ff0000;
+    border-radius: 1vw;
+    box-shadow: rgba(0,0,0,0) 2px 2px 6px;
+    overflow: clip;
+}
+.art-img {
+    object-fit: cover;
+    object-position: top;
+    border-radius: 1vw;
+    max-height: 100%;
+}
