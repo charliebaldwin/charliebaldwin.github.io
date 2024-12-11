@@ -4,222 +4,280 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://xemantic.github.io/shader-web-background/dist/shader-web-background.min.js"></script>
-    <script type="x-shader/x-fragment" id="image" src="./frag_bg.frag">
-        precision highp float;
     
-        uniform float iTime;
-        uniform float iTimeInit;
-        uniform vec2 iRes;
-        uniform vec2 iMouse;
-        
-        
-        float hash(vec2 p) {
-            // from https://stackoverflow.com/a/79109858
-            p += vec2(iTimeInit, iTimeInit);
-            float hash = mod(p.x, 289.0);
-            hash = mod((hash*51.0 + 2.0)*hash + p.y, 289.0);
-            hash = mod((hash*34.0 + 10.0)*hash, 289.0);
-            return hash / 289.0;
-        }
-        float remap (float value, float low1, float high1, float low2, float high2) {
-            return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
-        }
-        float sdfCircle(vec2 p, vec2 c, float r) {
-            c += vec2(iRes.x * 0.5, iRes.y * 0.5);
-            return distance(p, c) - r;
-        }
-        float sdfRect(vec2 p, vec2 c, vec2 halfSize, float cornerR) {
-            vec2 cwed = abs(p - c) - halfSize;
-            float dOutside = length(max(cwed, 0.));
-            float dInside = min(max(cwed.x, cwed.y), 0.);
-            float dTotal = dOutside + dInside;
-            dTotal -= cornerR;
-            return dTotal;
-        }
-        float movingBlob(vec2 p, float seed, float speedMult, vec2 rangeU, vec2 rangeV, vec2 rangeR) {
-            float speedX = speedMult * (1.0 + 0.3 * hash( vec2(seed, seed*34.219)     )) * (hash(vec2(seed*0.1,seed*2.3)) > 0.5 ? -1.0 : 1.0);
-            float speedY = speedMult * (1.0 + 0.3 * hash( vec2(seed*98.512, seed)     )) * (hash(vec2(seed*0.7,seed*2.9)) > 0.5 ? -1.0 : 1.0);
-            float speedR = 2.0 * speedMult * (1.0 + 0.3 * hash( vec2(seed*56.2, seed*0.023) ));
-            float offset = 282.791 * hash( vec2(seed, seed) );
-            
-            float posX = remap(cos(speedX * speedMult * iTime + offset), -1.0, 1.0, rangeU.x, rangeU.y);
-            posX = remap(posX, 0.0, 1.0, -0.5 * iRes.x, 0.5 * iRes.x);
-            float posY = remap(sin(speedY * speedMult * iTime + offset), -1.0, 1.0, rangeV.x, rangeV.y);
-            posY = remap(posY, 0.0, 1.0, -0.5 * iRes.y, 0.5 * iRes.y);
-            //vec2 c = vec2(posX, posY) + vec2(iRes.x * 0.5, iRes.y * 0.5);
-            
-            float r = remap(sin(speedR * speedMult * iTime + offset), -1.0, 1.0, rangeR.x, rangeR.y);
-            
-            return sdfCircle(p, vec2(posX, posY), r);
-        }
-        float smoothMin(float d1, float d2, float k) {
-            float h = max(k-abs(d1-d2), 0.) / k;
-            return min(d1, d2) - h*h*h*k*1.0/6.0;
-        }
-        float smoothMax(float d1, float d2, float k) {
-            float h = min(k-abs(d1-d2), 0.0) / k;
-            return max(d1, d2) - h*h*h*k*1.0/6.0;
-        }
-        float sceneDistance(vec2 p) {
-           
-            float rect = sdfRect(p, iRes * 0.5, vec2(max(0.225 * iRes.x, min(300., 0.3 * iRes.x)), 0.45 * iRes.y), 0.03 * min(iRes.x, iRes.y));
+    <script src="https://xemantic.github.io/shader-web-background/dist/shader-web-background.min.js"></script>
+<script type="x-shader/x-fragment" id="image">
+    precision highp float;
 
-            float circleMouse1 = sdfCircle(p, vec2(iMouse.x - (iRes.x / 2.0), iMouse.y - (iRes.y / 2.0)), 0.008 * iRes.x); 
-            float circleMouse2 = sdfCircle(p, vec2(0.02 * iRes.x * sin(4.5*iTime) + iMouse.x - (iRes.x / 2.0), 0.02 * iRes.x * cos(3.0*iTime) + iMouse.y - (iRes.y / 2.0)), 0.004 * iRes.x);
-            
-            float blob01 = movingBlob(p, 59.21 * iTimeInit, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 60.0));
-            float blob02 = movingBlob(p, 22.94 * iTimeInit, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(12.0, 80.0));
-            float blob03 = movingBlob(p, 69.44 * iTimeInit, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(40.0, 8.0));
-            float blob04 = movingBlob(p, 19.21 * iTimeInit, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 60.0));
-            float blob05 = movingBlob(p, 122.9 * iTimeInit, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(12.0, 80.0));
-            float blob06 = movingBlob(p, 32.44 * iTimeInit, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(40.0, 8.0));
-            float blob07 = movingBlob(p, 51.21 * iTimeInit, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 60.0));
-            float blob08 = movingBlob(p, 28.94 * iTimeInit, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(12.0, 80.0));
-            float blob09 = movingBlob(p, 62.44 * iTimeInit, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(40.0, 8.0));
-            float blob10 = movingBlob(p, 11.21 * iTimeInit, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 60.0));
-            float blob11 = movingBlob(p, 14.92 * iTimeInit, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(12.0, 80.0));
-            float blob12 = movingBlob(p, 39.44 * iTimeInit, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(40.0, 8.0));
-            
-            float d = smoothMin(rect, blob01, 20.0);
-            d = smoothMin(d, blob02, 60.0);
-            d = smoothMin(d, blob03, 60.0);
-            d = smoothMin(d, blob04, 60.0);
-            d = smoothMin(d, blob05, 60.0);
-            d = smoothMin(d, blob06, 60.0);
-            d = smoothMin(d, blob07, 60.0);
-            d = smoothMin(d, blob08, 60.0);
-            d = smoothMin(d, blob09, 60.0);
-            d = smoothMin(d, blob10, 60.0);
-            d = smoothMin(d, blob11, 60.0);
-            d = smoothMin(d, blob12, 60.0);
-            
-            d = smoothMin(d, circleMouse1, 70.0);
-            d = smoothMin(d, circleMouse2, 30.0);
-            
-            return d;
-        }
+    uniform float iTime;
+    uniform float iTimeInit;
+    uniform vec2 iRes;
+    uniform vec2 iMouse;
+    uniform float iSmooth;
+    uniform float iSeed1;
+    uniform float iSeed2;
+    
+    
+    float hash(vec2 p) {
+        // from https://stackoverflow.com/a/79109858
+        p += vec2(iTimeInit + iSeed1, iTimeInit + iSeed2);
+        float hash = mod(p.x, 289.0);
+        hash = mod((hash*51.0 + 2.0)*hash + p.y, 289.0);
+        hash = mod((hash*34.0 + 10.0)*hash, 289.0);
+        return hash / 289.0;
+    }
+    float remap (float value, float low1, float high1, float low2, float high2) {
+        return low2 + (value - low1) * (high2 - low2) / (high1 - low1);
+    }
+    float sdfCircle(vec2 p, vec2 c, float r) {
+        c += vec2(iRes.x * 0.5, iRes.y * 0.5);
+        return distance(p, c) - r;
+    }
+    float sdfRect(vec2 p, vec2 c, vec2 halfSize, float cornerR) {
+        vec2 cwed = abs(p - c) - halfSize;
+        float dOutside = length(max(cwed, 0.));
+        float dInside = min(max(cwed.x, cwed.y), 0.);
+        float dTotal = dOutside + dInside;
+        dTotal -= cornerR;
+        return dTotal;
+    }
+    float movingBlob(vec2 p, float seed, float speedMult, vec2 rangeU, vec2 rangeV, vec2 rangeR) {
+        float speedX = speedMult * (1.0 + 0.3 * hash( vec2(seed, seed*34.219)     )) * (hash(vec2(seed*0.1,seed*2.3)) > 0.5 ? -1.0 : 1.0);
+        float speedY = speedMult * (1.0 + 0.3 * hash( vec2(seed*98.512, seed)     )) * (hash(vec2(seed*0.7,seed*2.9)) > 0.5 ? -1.0 : 1.0);
+        float speedR = 2.0 * speedMult * (1.0 + 0.3 * hash( vec2(seed*56.2, seed*0.023) ));
+        float offset = 282.791 * hash( vec2(seed, seed) );
         
-        void main() {
-            const int MAX_ITER = 100;
-            const float MAX_DIST = 1000.0;
-            const float MIN_DIST = 0.0001;
-            
-            vec2 p = vec2(gl_FragCoord.x, gl_FragCoord.y);
-            float d = sceneDistance(p);
+        float posX = remap(cos(speedX * speedMult * iTime + offset), -1.0, 1.0, rangeU.x, rangeU.y);
+        posX = remap(posX, 0.0, 1.0, -0.5 * iRes.x, 0.5 * iRes.x);
+        float posY = remap(sin(speedY * speedMult * iTime + offset), -1.0, 1.0, rangeV.x, rangeV.y);
+        posY = remap(posY, 0.0, 1.0, -0.5 * iRes.y, 0.5 * iRes.y);
+        //vec2 c = vec2(posX, posY) + vec2(iRes.x * 0.5, iRes.y * 0.5);
         
-            vec4 color = vec4(gl_FragCoord.x / iRes.x, gl_FragCoord.y / iRes.y, 0.0, 1.0);
-            if (distance(gl_FragCoord.xy, iMouse.xy) < 30.) {
-                color = vec4(1.0, 1.0, 1.0, 1.0);
-            } 
+        float r = remap(sin(speedR * speedMult * iTime + offset), -1.0, 1.0, rangeR.x, rangeR.y);
+        
+        return sdfCircle(p, vec2(posX, posY), r);
+    }
+    float smoothMin(float d1, float d2, float k) {
+        float h = max(k-abs(d1-d2), 0.) / k;
+        return min(d1, d2) - h*h*h*k*1.0/6.0;
+    }
+    float smoothMax(float d1, float d2, float k) {
+        float h = min(k-abs(d1-d2), 0.0) / k;
+        return max(d1, d2) - h*h*h*k*1.0/6.0;
+    }
+    float sceneDistance(vec2 p) {
+       
+        float rect = sdfRect(p, iRes * 0.5, vec2(max(0.225 * iRes.x, min(300., 0.35 * iRes.x)), 0.465 * iRes.y), max(0.03 * min(iRes.x, iRes.y), 30.0));
+
+        float circleMouse1 = sdfCircle(p, vec2(iMouse.x - (iRes.x / 2.0), iMouse.y - (iRes.y / 2.0)), 0.008 * iRes.x); 
+        float circleMouse2 = sdfCircle(p, vec2(0.02 * iRes.x * sin(4.5*iTime) + iMouse.x - (iRes.x / 2.0), 0.02 * iRes.x * cos(3.0*iTime) + iMouse.y - (iRes.y / 2.0)), 0.004 * iRes.x);
+        
+        float blob01 = movingBlob(p, 59.21, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob02 = movingBlob(p, 22.94, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(20.0, 50.0));
+        float blob03 = movingBlob(p, 69.44, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob04 = movingBlob(p, 19.21, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(20.0, 50.0));
+        float blob05 = movingBlob(p, 122.9, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(12.0, 50.0));
+        float blob06 = movingBlob(p, 32.44, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob07 = movingBlob(p, 51.21, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob08 = movingBlob(p, 28.94, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(20.0, 50.0));
+        float blob09 = movingBlob(p, 62.44, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob10 = movingBlob(p, 11.21, 0.5, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        float blob11 = movingBlob(p, 14.92, 0.7, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(20.0, 50.0));
+        float blob12 = movingBlob(p, 39.44, 0.6, vec2(0.1, 0.9), vec2(0.2, 0.8), vec2(10.0, 40.0));
+        
+        float d = smoothMin(rect, blob01, iSmooth * 20.0);
+        d = smoothMin(d, blob02, iSmooth * 60.0);
+        d = smoothMin(d, blob03, iSmooth * 60.0);
+        d = smoothMin(d, blob04, iSmooth * 60.0);
+        d = smoothMin(d, blob05, iSmooth * 60.0);
+        d = smoothMin(d, blob06, iSmooth * 60.0);
+        d = smoothMin(d, blob07, iSmooth * 60.0);
+        d = smoothMin(d, blob08, iSmooth * 60.0);
+        d = smoothMin(d, blob09, iSmooth * 60.0);
+        d = smoothMin(d, blob10, iSmooth * 60.0);
+        d = smoothMin(d, blob11, iSmooth * 60.0);
+        d = smoothMin(d, blob12, iSmooth * 60.0);
+        
+        d = smoothMin(d, circleMouse1, iSmooth * 70.0);
+        d = smoothMin(d, circleMouse2, iSmooth * 30.0);
+        
+        return d;
+    }
+    
+    void main() {
+        const int MAX_ITER = 100;
+        const float MAX_DIST = 1000.0;
+        const float MIN_DIST = 0.0001;
+        
+        vec2 p = vec2(gl_FragCoord.x, gl_FragCoord.y);
+        float d = sceneDistance(p);
+    
+        vec4 color = vec4(gl_FragCoord.x / iRes.x, gl_FragCoord.y / iRes.y, 0.0, 1.0);
+        if (distance(gl_FragCoord.xy, iMouse.xy) < 30.) {
+            color = vec4(1.0, 1.0, 1.0, 1.0);
+        } 
           
-            //d = floor(1.01 - clamp(d / 100.0, 0.0, 1.0));
+        vec4 gradient = mix(vec4(1.0, 0.0, 0.5, 1.0), vec4(0.1, 0.6, 1.0, 1.0), gl_FragCoord.y / iRes.y);
+                    
+        d = pow(1.0 - clamp(d, 0.0, 1.0), 0.2); 
+        //d = d < 0.9 ? 0.0 : 1.0;
+        color = mix(gradient, vec4(1.0,1.0,1.0,1.0), d);
         
-            vec4 gradient = mix(vec4(1.0, 0.0, 0.5, 1.0), vec4(0.1, 0.6, 1.0, 1.0), gl_FragCoord.y / iRes.y);
-                        
-            d = pow(1.0 - clamp(d, 0.0, 1.0), 0.3); 
-            
-            color = mix(gradient, vec4(1.0,1.0,1.0,1.0), d);
-            
-            //d = d > 0.9 ? 0.0 : 1.0;
-            //color = vec4(d,d,d,1.0);
-            gl_FragColor = color;
-        }
-    </script>
-    <script>
-        // mouse coordinates taken from from the mousemove event
-        var mouseX;
-        var mouseY;
         
-        var timeInit;
+        //color = vec4(d,d,d,1.0);
+        gl_FragColor = color;
+    }
+</script>
+<script>
+    // mouse coordinates taken from the mousemove event
+    var mouseX;
+    var mouseY;
+    var smooth = 1.0;
+    var targetSmooth = 1.0;
+    var smoothLerp = 0.95;
+    
+    var mouseV = 1.0;
 
-        document.addEventListener("mousemove", (event) => {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-        });
+    var seed1;
+    var seed2;
 
-        // mouse coordinates relative to the shader, you can also store them on the context
-        var shaderMouseX;
-        var shaderMouseY;
-        
-        shaderWebBackground.shade({
-            onInit: (ctx) => {
-                mouseX = ctx.cssWidth / 2;
-                mouseY = ctx.cssHeight / 2;
-                timeInit = new Date().getMilliseconds();
-            },
-            onBeforeFrame: (ctx) => {
-                shaderMouseX = ctx.toShaderX(mouseX);
-                shaderMouseY = ctx.toShaderY(mouseY);
-            },
-            shaders: {
-                image: {
-                    uniforms: {
-                        iTime: (gl, loc) => gl.uniform1f(loc, 0.5 * (performance.now() / 1000)),
-                        iTimeInit: (gl, loc) => gl.uniform1f(loc, timeInit),
-                        iRes: (gl, loc, ctx) => gl.uniform2f(loc, ctx.width, ctx.height),
-                        iMouse: (gl, loc) => gl.uniform2f(loc, shaderMouseX, shaderMouseY)
-                    }
+    var timeInit;
+
+    document.addEventListener("mousemove", (event) => {
+        mouseV = 1 + Math.min(0.1 * (Math.abs(mouseX - event.clientX) + Math.abs(mouseY - event.clientY)), 6);
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    });
+    document.addEventListener("mouseout", (event) => {
+        mouseV = 1;
+        //targetSmooth = 0.0;
+    });
+    document.addEventListener("mousedown", startPress);
+    document.addEventListener("mouseup", endPress);
+    document.addEventListener("touchstart", startPress);
+    document.addEventListener("touchend", endPress);
+    document.addEventListener("touchcancel", endPress);
+
+    function startPress() {
+        targetSmooth = 0.4;
+        smoothLerp = 0.92;
+    }
+    function endPress() {
+        targetSmooth = 3.0;
+        smoothLerp = 0.97;
+    }
+
+    // mouse coordinates relative to the shader, you can also store them on the context
+    var shaderMouseX;
+    var shaderMouseY;
+
+    shaderWebBackground.shade({
+        onInit: (ctx) => {
+            seed1 = Math.random();
+            seed2 = Math.random();
+            mouseX = ctx.cssWidth / 2;
+            mouseY = ctx.cssHeight / 2;
+            timeInit = new Date().getMilliseconds();
+            //timeInit = performance.timeOrigin;
+            //timeInit = 1.0;
+            /*targetSmooth = 1.0;
+            smooth = targetSmooth;
+            smoothLerp = 0.95;*/
+        },
+        onBeforeFrame: (ctx) => {
+            shaderMouseX = ctx.toShaderX(mouseX);
+            shaderMouseY = ctx.toShaderY(mouseY);
+            smooth = smooth * smoothLerp + (targetSmooth * mouseV) * (1.0 - smoothLerp);
+        },
+        shaders: {
+            image: {
+                uniforms: {
+                    iTime: (gl, loc) => gl.uniform1f(loc, 0.5 * (performance.now() / 1000)),
+                    //iTime: (gl, loc) => gl.uniform1f(loc, Date.now() / 1000),
+                    iTimeInit: (gl, loc) => gl.uniform1f(loc, timeInit),
+                    iRes: (gl, loc, ctx) => gl.uniform2f(loc, ctx.width, ctx.height),
+                    iMouse: (gl, loc) => gl.uniform2f(loc, shaderMouseX, shaderMouseY),
+                    iSmooth: (gl, loc) => gl.uniform1f(loc, smooth),
+                    iSeed1: (gl, loc) => gl.uniform1f(loc, seed1),
+                    iSeed2: (gl, loc) => gl.uniform1f(loc, seed2)
                 }
             }
-        });
-    </script>
-    <title>cbaldwin - home</title>
-    <link rel="stylesheet" href="./styles.css">
-    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
+        }
+    });
+</script>
+
+    <title> cbaldwin - home </title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="icon" href="/assets/images/favicon.png" type="image/x-icon">
 </head>
 <body>
 
-   <!-- <video autoplay muted loop id="bg-img">
-        <source src="./video/bg_render01.mp4" type="video/mp4">
-    </video> -->
-    
-    <div id="layout-main">
-        <div id="column">
-            <div id="column-inner">
-                
-                <p id="name-header">charlie baldwin</p>
-                <p id="sub-header">technical artist // shaders // vfx // scripting // ui & ux</p>
-                
-                <div id="link-box">
-                    <a class="header-link" id="link-selected" href="./index.html">works</a>
-                    <a class="header-link" href="./blog.html">blog</a>
-                    <a class="header-link" href="./contact.html">contact</a>
-                    <a class="header-link" href="./blog.html">about</a>
-                </div>
-                
-                <div id="content-section">
-                    
-                    <div class="art-grp" id="art01">
-                        <div class="art-img-container">
-                            <img class="art-img" src="./images/sample.jpg"/>
-                        </div>
-                        <div class="art-label-container">
-                            <p class="art-label">click to view this artwork dasdas</p>
-                        </div>                     
-                    </div>
-                    
-                    <div class="art-grp" id="art02">
-                        <div class="art-img-container">
-                            <img class="art-img" src="./images/sample.jpg"/>
-                        </div>
-                        <div class="art-label-container">
-                            <p class="art-label">click to view this artwork dasdas</p>
-                        </div>
-                    </div>
+<!-- <video autoplay muted loop id="bg-img">
+     <source src="./video/bg_render01.mp4" type="video/mp4">
+ </video> -->
 
-                    <div class="art-grp" id="art03">
-                        <div class="art-img-container">
-                            <img class="art-img" src="./images/sample.jpg"/>
-                        </div>
-                        <div class="art-label-container">
-                            <p class="art-label">click to view this artwork dasdas</p>
-                        </div>
-                    </div>
-                    
-                </div>
+<div id="layout-main">
+    <div id="column">
+        <div id="column-inner">
+            
+            <p id="name-header">charlie baldwin</p>
+<p id="sub-header">technical artist // shaders // vfx // scripting // ui & ux</p>
+
+            <nav id="link-box">
+    
+    <a class="header-link" href="/" id="link-selected">home</a>
+    
+    <a class="header-link" href="/blog.html">blog</a>
+    
+    <a class="header-link" href="/about.html">about</a>
+    
+</nav>
+            <p></p>
+            <div id="content-section">
+                
+<div class="art-grp" id="art01">
+    <div class="art-img-container">
+        <a href="/works/work01.html"><img class="art-img" src="/assets/images/sample.jpg" /></a>
+    </div>
+    <div class="art-label-container">
+        <p class="art-label">default uv texture</p>
+    </div>
+</div>
+
+<div class="art-grp" id="art01">
+    <div class="art-img-container">
+        <a href="/works/work02.html"><img class="art-img" src="/assets/images/orangutan_render_3.png" /></a>
+    </div>
+    <div class="art-label-container">
+        <p class="art-label">beautiful orangutan thing</p>
+    </div>
+</div>
+
+<div class="art-grp" id="art01">
+    <div class="art-img-container">
+        <a href="/works/work03.html"><img class="art-img" src="/assets/images/orangutan_render_3.png" /></a>
+    </div>
+    <div class="art-label-container">
+        <p class="art-label">beautiful orangutan thing</p>
+    </div>
+</div>
+
+<div class="art-grp" id="art01">
+    <div class="art-img-container">
+        <a href="/works/work04.html"><img class="art-img" src="/assets/images/orangutan_render_3.png" /></a>
+    </div>
+    <div class="art-label-container">
+        <p class="art-label">beautiful orangutan thing</p>
+    </div>
+</div>
+
+
             </div>
+            
+            
         </div>
     </div>
+</div>
 </body>
 </html>
+
