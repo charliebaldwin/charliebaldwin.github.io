@@ -110,6 +110,21 @@ body {
     gap: 1vw;
     flex-wrap: wrap;
 }
+#about-text-container {
+    min-height: 0px;
+    border-radius: 0vw;
+    padding: max(5vw, 5px);
+    padding-top: 1vh;
+    font-size: min(max(2vw, 10px), 16px);
+    border: dashed 0px #dddddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
 .art-grp {
     width: 100%;
     margin-outside: 4vw;
